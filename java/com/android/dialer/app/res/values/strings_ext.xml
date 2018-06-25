@@ -48,4 +48,7 @@
 
     <string name="action_menu_helplines">Helplines</string>
 
+    <string name="call_via">Call via</string>
+    <string name="call_via_dialog_title">Call via\u2026</string>
+
 </resources>
