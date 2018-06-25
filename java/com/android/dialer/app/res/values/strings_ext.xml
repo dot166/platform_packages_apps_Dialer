@@ -62,4 +62,7 @@
 
     <string name="call_recording_audio_source_default">"4"</string>
 
+    <string name="call_via">Call via</string>
+    <string name="call_via_dialog_title">Call via\u2026</string>
+
 </resources>
