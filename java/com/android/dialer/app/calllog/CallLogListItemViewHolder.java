@@ -56,8 +56,6 @@ import com.android.dialer.app.calllog.CallLogAdapter.OnActionModeStateChangedLis
 import com.android.dialer.app.calllog.calllogcache.CallLogCache;
 import com.android.dialer.app.voicemail.VoicemailPlaybackLayout;
 import com.android.dialer.app.voicemail.VoicemailPlaybackPresenter;
-import com.android.dialer.blocking.BlockedNumbersMigrator;
-import com.android.dialer.blocking.FilteredNumberCompat;
 import com.android.dialer.blocking.FilteredNumbersUtil;
 import com.android.dialer.callcomposer.CallComposerActivity;
 import com.android.dialer.calldetails.CallDetailsEntries;
@@ -408,24 +406,12 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     } else if (resId == R.id.context_menu_block_report_spam) {
       Logger.get(context)
           .logImpression(DialerImpression.Type.CALL_LOG_CONTEXT_MENU_BLOCK_REPORT_SPAM);
-      maybeShowBlockNumberMigrationDialog(
-          new BlockedNumbersMigrator.Listener() {
-            @Override
-            public void onComplete() {
-              blockReportListener.onBlockReportSpam(
-                  displayNumber, number, countryIso, callType, info.sourceType);
-            }
-          });
+      blockReportListener.onBlockReportSpam(
+              displayNumber, number, countryIso, callType, info.sourceType);
     } else if (resId == R.id.context_menu_block) {
       Logger.get(context).logImpression(DialerImpression.Type.CALL_LOG_CONTEXT_MENU_BLOCK_NUMBER);
-      maybeShowBlockNumberMigrationDialog(
-          new BlockedNumbersMigrator.Listener() {
-            @Override
-            public void onComplete() {
-              blockReportListener.onBlock(
-                  displayNumber, number, countryIso, callType, info.sourceType);
-            }
-          });
+      blockReportListener.onBlock(
+              displayNumber, number, countryIso, callType, info.sourceType);
     } else if (resId == R.id.context_menu_unblock) {
       Logger.get(context).logImpression(DialerImpression.Type.CALL_LOG_CONTEXT_MENU_UNBLOCK_NUMBER);
       blockReportListener.onUnblock(
@@ -995,27 +981,15 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
 
     if (view.getId() == R.id.block_report_action) {
       Logger.get(context).logImpression(DialerImpression.Type.CALL_LOG_BLOCK_REPORT_SPAM);
-      maybeShowBlockNumberMigrationDialog(
-          new BlockedNumbersMigrator.Listener() {
-            @Override
-            public void onComplete() {
-              blockReportListener.onBlockReportSpam(
-                  displayNumber, number, countryIso, callType, info.sourceType);
-            }
-          });
+      blockReportListener.onBlockReportSpam(
+              displayNumber, number, countryIso, callType, info.sourceType);
       return;
     }
 
     if (view.getId() == R.id.block_action) {
       Logger.get(context).logImpression(DialerImpression.Type.CALL_LOG_BLOCK_NUMBER);
-      maybeShowBlockNumberMigrationDialog(
-          new BlockedNumbersMigrator.Listener() {
-            @Override
-            public void onComplete() {
-              blockReportListener.onBlock(
-                  displayNumber, number, countryIso, callType, info.sourceType);
-            }
-          });
+      blockReportListener.onBlock(
+              displayNumber, number, countryIso, callType, info.sourceType);
       return;
     }
 
@@ -1173,13 +1147,6 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     }
   }
 
-  private void maybeShowBlockNumberMigrationDialog(BlockedNumbersMigrator.Listener listener) {
-    if (!FilteredNumberCompat.maybeShowBlockNumberMigrationDialog(
-        context, ((Activity) context).getFragmentManager(), listener)) {
-      listener.onComplete();
-    }
-  }
-
   private void updateBlockReportActions(boolean canPlaceCallToNumber, boolean isVoicemailNumber) {
     // Set block/spam actions.
     blockReportView.setVisibility(View.GONE);
@@ -1189,8 +1156,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     String e164Number = PhoneNumberUtils.formatNumberToE164(number, countryIso);
     if (!canPlaceCallToNumber
         || isVoicemailNumber
-        || !FilteredNumbersUtil.canBlockNumber(context, e164Number, number)
-        || !FilteredNumberCompat.canAttemptBlockOperations(context)) {
+        || !FilteredNumbersUtil.canBlockNumber(context, e164Number, number)) {
       return;
     }
     boolean isBlocked = blockId != null;
@@ -1272,8 +1238,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     boolean canPlaceCallToNumber = PhoneNumberHelper.canPlaceCallsTo(number, numberPresentation);
     if (canPlaceCallToNumber
         && !isVoicemailNumber
-        && FilteredNumbersUtil.canBlockNumber(context, e164Number, number)
-        && FilteredNumberCompat.canAttemptBlockOperations(context)) {
+        && FilteredNumbersUtil.canBlockNumber(context, e164Number, number)) {
       boolean isBlocked = blockId != null;
       if (isBlocked) {
         menu.add(
