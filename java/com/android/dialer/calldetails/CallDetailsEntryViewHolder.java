@@ -22,12 +22,13 @@ import android.provider.CallLog.Calls;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.os.BuildCompat;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.dialer.R;
 import com.android.dialer.calldetails.CallDetailsEntries.CallDetailsEntry;
 import com.android.dialer.calllogutils.CallLogDates;
 import com.android.dialer.calllogutils.CallLogDurations;
@@ -108,9 +109,7 @@ public class CallDetailsEntryViewHolder extends ViewHolder {
         (entry.getFeatures() & Calls.FEATURES_PULLED_EXTERNALLY)
             == Calls.FEATURES_PULLED_EXTERNALLY;
     boolean isDuoCall = entry.getIsDuoCall();
-    boolean isRttCall =
-        BuildCompat.isAtLeastP()
-            && (entry.getFeatures() & Calls.FEATURES_RTT) == Calls.FEATURES_RTT;
+    boolean isRttCall = (entry.getFeatures() & Calls.FEATURES_RTT) == Calls.FEATURES_RTT;
 
     callTime.setTextColor(getColorForCallType(context, callType));
     callTypeIcon.clear();
@@ -120,9 +119,7 @@ public class CallDetailsEntryViewHolder extends ViewHolder {
         (entry.getFeatures() & Calls.FEATURES_HD_CALL) == Calls.FEATURES_HD_CALL);
     callTypeIcon.setShowWifi(
         MotorolaUtils.shouldShowWifiIconInCallLog(context, entry.getFeatures()));
-    if (BuildCompat.isAtLeastP()) {
-      callTypeIcon.setShowRtt((entry.getFeatures() & Calls.FEATURES_RTT) == Calls.FEATURES_RTT);
-    }
+    callTypeIcon.setShowRtt((entry.getFeatures() & Calls.FEATURES_RTT) == Calls.FEATURES_RTT);
 
     callTypeText.setText(
         callTypeHelper.getCallTypeText(callType, isVideoCall, isPulledCall, isDuoCall));
