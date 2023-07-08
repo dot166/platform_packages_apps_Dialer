@@ -945,7 +945,7 @@ public class StatusBarNotifier
 
     builder.addAction(
         new Notification.Action.Builder(
-                Icon.createWithResource(context, R.drawable.quantum_ic_call_white_24),
+                Icon.createWithResource(context, R.drawable.quantum_ic_call_vd_theme_24),
                 spannable,
                 answerVoicePendingIntent)
             .build());
