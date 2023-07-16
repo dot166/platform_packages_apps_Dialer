@@ -19,10 +19,6 @@ package com.android.dialer.binary.common;
 import android.app.Application;
 import android.os.Trace;
 import android.support.annotation.NonNull;
-import com.android.dialer.calllog.CallLogComponent;
-import com.android.dialer.calllog.CallLogFramework;
-import com.android.dialer.calllog.config.CallLogConfig;
-import com.android.dialer.calllog.config.CallLogConfigComponent;
 import com.android.dialer.common.LogUtil;
 import com.android.dialer.common.concurrent.DialerExecutorComponent;
 import com.android.dialer.inject.HasRootComponent;
@@ -40,22 +36,9 @@ public abstract class DialerApplication extends Application implements HasRootCo
     Trace.beginSection("DialerApplication.onCreate");
     StrictModeComponent.get(this).getDialerStrictMode().onApplicationCreate(this);
     super.onCreate();
-    initializeAnnotatedCallLog();
     PersistentLogger.initialize(this);
     NotificationChannelManager.initChannels(this);
     Trace.endSection();
-  }
-
-  private void initializeAnnotatedCallLog() {
-    CallLogConfig callLogConfig = CallLogConfigComponent.get(this).callLogConfig();
-    callLogConfig.schedulePollingJob();
-
-    if (callLogConfig.isCallLogFrameworkEnabled()) {
-      CallLogFramework callLogFramework = CallLogComponent.get(this).callLogFramework();
-      callLogFramework.registerContentObservers();
-    } else {
-      LogUtil.i("DialerApplication.initializeAnnotatedCallLog", "framework not enabled");
-    }
   }
 
   /**
