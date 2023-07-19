@@ -145,12 +145,6 @@ EXTRA_PACKAGE_FLAGS = [
 filegroup {
     name: "dialer_manifests",
     srcs: ["**/AndroidManifest.xml"],
-    exclude_srcs: [
-        "java/com/android/dialer/binary/aosp/testing/AndroidManifest.xml",
-        "java/com/android/dialer/binary/google/AndroidManifest.xml",
-        "java/com/android/incallui/calllocation/impl/AndroidManifest.xml",
-        "java/com/android/incallui/maps/impl/AndroidManifest.xml",
-    ],
 }
 
 // Subtraction(RES_DIRS - EXCLUDE_RESOURCE_DIRECTORIES).
@@ -253,31 +247,10 @@ android_app {
         "java/com/android/**/*.aidl",
     ],
     exclude_srcs: [
-        // Exclude files incompatible with AOSP.
-        "java/com/android/incallui/calllocation/impl/AuthException.java",
-        "java/com/android/incallui/calllocation/impl/CallLocationImpl.java",
-        "java/com/android/incallui/calllocation/impl/CallLocationModule.java",
-        "java/com/android/incallui/calllocation/impl/DownloadMapImageTask.java",
-        "java/com/android/incallui/calllocation/impl/GoogleLocationSettingHelper.java",
-        "java/com/android/incallui/calllocation/impl/HttpFetcher.java",
-        "java/com/android/incallui/calllocation/impl/LocationFragment.java",
-        "java/com/android/incallui/calllocation/impl/LocationHelper.java",
-        "java/com/android/incallui/calllocation/impl/LocationPresenter.java",
-        "java/com/android/incallui/calllocation/impl/LocationUrlBuilder.java",
-        "java/com/android/incallui/calllocation/impl/ReverseGeocodeTask.java",
-        "java/com/android/incallui/calllocation/impl/TrafficStatsTags.java",
-        "java/com/android/incallui/maps/impl/MapsImpl.java",
-        "java/com/android/incallui/maps/impl/MapsModule.java",
-        "java/com/android/incallui/maps/impl/StaticMapFragment.java",
         // Exclude testing only class, not used anywhere here
         "java/com/android/contacts/common/format/testing/SpannedTestUtils.java",
         // Exclude rootcomponentgenerator
         "java/com/android/dialer/rootcomponentgenerator/**/*.java",
-        "java/com/android/dialer/inject/demo/**/*.java",
-        //  Exclude build variants for now
-        "java/com/android/dialer/constants/googledialer/ConstantsImpl.java",
-        "java/com/android/dialer/binary/google/GoogleStubDialerRootComponent.java",
-        "java/com/android/dialer/binary/google/GoogleStubDialerApplication.java",
         // b/62875795
         "java/com/android/voicemail/impl/com/google/internal/communications/voicemailtranscription/v1/VoicemailTranscriptionServiceGrpc.java",
     ],
