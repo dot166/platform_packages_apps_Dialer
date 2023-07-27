@@ -553,7 +553,7 @@ public class CallButtonPresenter
                 .getCallList()
                 .getAllCalls()
                 .stream()
-                .noneMatch(c -> c != null && c.isSpeakEasyCall())
+                .noneMatch(c -> c != null)
             && call.can(android.telecom.Call.Details.CAPABILITY_MERGE_CONFERENCE);
     final boolean showUpgradeToVideo = !isVideo && (hasVideoCallCapabilities(call));
     final boolean showDowngradeToAudio = isVideo && isDowngradeToAudioSupported(call);
