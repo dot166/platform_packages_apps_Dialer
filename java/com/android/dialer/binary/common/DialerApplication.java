@@ -19,12 +19,10 @@ package com.android.dialer.binary.common;
 import android.app.Application;
 import android.os.Trace;
 import android.support.annotation.NonNull;
-import com.android.dialer.common.LogUtil;
 import com.android.dialer.common.concurrent.DialerExecutorComponent;
 import com.android.dialer.inject.HasRootComponent;
 import com.android.dialer.notification.NotificationChannelManager;
 import com.android.dialer.persistentlog.PersistentLogger;
-import com.android.dialer.strictmode.StrictModeComponent;
 
 /** A common application subclass for all Dialer build variants. */
 public abstract class DialerApplication extends Application implements HasRootComponent {
@@ -34,7 +32,6 @@ public abstract class DialerApplication extends Application implements HasRootCo
   @Override
   public void onCreate() {
     Trace.beginSection("DialerApplication.onCreate");
-    StrictModeComponent.get(this).getDialerStrictMode().onApplicationCreate(this);
     super.onCreate();
     PersistentLogger.initialize(this);
     NotificationChannelManager.initChannels(this);
