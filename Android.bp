@@ -264,6 +264,7 @@ android_app {
     // LOCAL_STATIC_JAVA_LIBRARIES + LOCAL_STATIC_ANDROID_LIBRARIES
     static_libs: [
         "android-common",
+        "androidx.annotation_annotation",
         "android-support-core-ui",
         "android-support-design",
         "android-support-transition",
