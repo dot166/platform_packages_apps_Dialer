@@ -53,10 +53,6 @@ import com.android.dialer.enrichedcall.EnrichedCallComponent;
 import com.android.dialer.enrichedcall.EnrichedCallManager;
 import com.android.dialer.enrichedcall.historyquery.proto.HistoryResult;
 import com.android.dialer.glidephotomanager.PhotoInfo;
-import com.android.dialer.logging.DialerImpression;
-import com.android.dialer.logging.Logger;
-import com.android.dialer.logging.UiAction;
-import com.android.dialer.performancereport.PerformanceReport;
 import com.android.dialer.postcall.PostCall;
 import com.android.dialer.precall.PreCall;
 import com.android.dialer.rtt.RttTranscriptActivity;
@@ -124,11 +120,7 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
     setContentView(R.layout.call_details_activity);
     Toolbar toolbar = findViewById(R.id.toolbar);
     toolbar.setTitle(R.string.call_details);
-    toolbar.setNavigationOnClickListener(
-        v -> {
-          PerformanceReport.recordClick(UiAction.Type.CLOSE_CALL_DETAIL_WITH_CANCEL_BUTTON);
-          finish();
-        });
+    toolbar.setNavigationOnClickListener(v -> finish());
     checkRttTranscriptAvailabilityListener =
         DialerExecutorComponent.get(this)
             .createUiListener(getFragmentManager(), "Query RTT transcript availability");
@@ -140,14 +132,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
   @CallSuper
   protected void onResume() {
     super.onResume();
-
-    // Some calls may not be recorded (eg. from quick contact),
-    // so we should restart recording after these calls. (Recorded call is stopped)
-    PostCall.restartPerformanceRecordingIfARecentCallExist(this);
-    if (!PerformanceReport.isRecording()) {
-      PerformanceReport.startRecording();
-    }
-
     PostCall.promptUserForMessageIfNecessary(this, findViewById(R.id.recycler_view));
 
     EnrichedCallComponent.get(this)
@@ -213,7 +197,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
     RecyclerView recyclerView = findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setAdapter(adapter);
-    PerformanceReport.logOnScrollStateChange(recyclerView);
   }
 
   final CallDetailsAdapterCommon getAdapter() {
@@ -223,7 +206,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
   @Override
   @CallSuper
   public void onBackPressed() {
-    PerformanceReport.recordClick(UiAction.Type.PRESS_ANDROID_BACK_BUTTON);
     super.onBackPressed();
   }
 
@@ -317,8 +299,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
 
     @Override
     public void placeImsVideoCall(String phoneNumber) {
-      Logger.get(getActivity())
-          .logImpression(DialerImpression.Type.CALL_DETAILS_IMS_VIDEO_CALL_BACK);
       PreCall.start(
           getActivity(),
           new CallIntentBuilder(phoneNumber, CallInitiationType.Type.CALL_DETAILS)
@@ -327,8 +307,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
 
     @Override
     public void placeDuoVideoCall(String phoneNumber) {
-      Logger.get(getActivity())
-          .logImpression(DialerImpression.Type.CALL_DETAILS_LIGHTBRINGER_CALL_BACK);
       PreCall.start(
           getActivity(),
           new CallIntentBuilder(phoneNumber, CallInitiationType.Type.CALL_DETAILS)
@@ -338,8 +316,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
 
     @Override
     public void placeVoiceCall(String phoneNumber, String postDialDigits) {
-      Logger.get(getActivity()).logImpression(DialerImpression.Type.CALL_DETAILS_VOICE_CALL_BACK);
-
       boolean canSupportedAssistedDialing =
           getActivity()
               .getIntent()
@@ -412,7 +388,6 @@ abstract class CallDetailsActivityCommon extends AppCompatActivity {
     @Override
     public void delete() {
       CallDetailsActivityCommon activity = getActivity();
-      Logger.get(activity).logImpression(DialerImpression.Type.USER_DELETED_CALL_LOG_ITEM);
       DialerExecutorComponent.get(activity)
           .dialerExecutorFactory()
           .createNonUiTaskBuilder(new DeleteCallsWorker(activity))
