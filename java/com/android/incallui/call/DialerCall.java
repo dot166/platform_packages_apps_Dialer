@@ -65,12 +65,9 @@ import com.android.dialer.enrichedcall.Session;
 import com.android.dialer.location.GeoUtil;
 import com.android.dialer.logging.ContactLookupResult;
 import com.android.dialer.logging.ContactLookupResult.Type;
-import com.android.dialer.logging.DialerImpression;
-import com.android.dialer.logging.Logger;
 import com.android.dialer.preferredsim.PreferredAccountRecorder;
 import com.android.dialer.rtt.RttTranscript;
 import com.android.dialer.rtt.RttTranscriptUtil;
-import com.android.dialer.spam.status.SpamStatus;
 import com.android.dialer.telecom.TelecomCallUtil;
 import com.android.dialer.telecom.TelecomUtil;
 import com.android.dialer.theme.common.R;
@@ -156,7 +153,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
   private PhoneAccountHandle phoneAccountHandle;
   @CallHistoryStatus private int callHistoryStatus = CALL_HISTORY_STATUS_UNKNOWN;
 
-  @Nullable private SpamStatus spamStatus;
   private boolean isBlocked;
 
   private boolean didShowCameraPermission;
@@ -175,8 +171,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
   private int secondCallWithoutAnswerAndReleasedButtonTimes = 0;
   private VideoTech videoTech;
 
-  private com.android.dialer.logging.VideoTech.Type selectedAvailableVideoTechType =
-      com.android.dialer.logging.VideoTech.Type.NONE;
   private boolean isVoicemailNumber;
   private List<PhoneAccountHandle> callCapableAccounts;
   private String countryIso;
@@ -307,13 +301,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
         @Override
         public void onRttStatusChanged(Call call, boolean enabled, RttCall rttCall) {
           LogUtil.v("TelecomCallCallback.onRttStatusChanged", "enabled=%b", enabled);
-          if (enabled) {
-            Logger.get(context)
-                .logCallImpression(
-                    DialerImpression.Type.RTT_MID_CALL_ENABLED,
-                    getUniqueCallId(),
-                    getTimeAddedMs());
-          }
           update();
         }
 
@@ -1077,13 +1064,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
   }
 
   public void respondToRttRequest(boolean accept, int rttRequestId) {
-    Logger.get(context)
-        .logCallImpression(
-            accept
-                ? DialerImpression.Type.RTT_MID_CALL_ACCEPTED
-                : DialerImpression.Type.RTT_MID_CALL_REJECTED,
-            getUniqueCallId(),
-            getTimeAddedMs());
     getTelecomCall().respondToRttRequest(rttRequestId, accept);
   }
 
@@ -1238,28 +1218,8 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
     didDismissVideoChargesAlertDialog = didDismiss;
   }
 
-  public void setSpamStatus(@Nullable SpamStatus spamStatus) {
-    this.spamStatus = spamStatus;
-  }
-
-  public Optional<SpamStatus> getSpamStatus() {
-    return Optional.fromNullable(spamStatus);
-  }
-
   public boolean isSpam() {
-    if (spamStatus == null || !spamStatus.isSpam()) {
-      return false;
-    }
-
-    if (!isIncoming()) {
-      return false;
-    }
-
-    if (isPotentialEmergencyCallback()) {
-      return false;
-    }
-
-    return true;
+    return false;
   }
 
   public boolean isBlocked() {
@@ -1430,12 +1390,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
   public VideoTech getVideoTech() {
     if (videoTech == null) {
       videoTech = videoTechManager.getVideoTech(getAccountHandle());
-
-      // Only store the first video tech type found to be available during the life of the call.
-      if (selectedAvailableVideoTechType == com.android.dialer.logging.VideoTech.Type.NONE) {
-        // Update the video tech.
-        selectedAvailableVideoTechType = videoTech.getVideoTechType();
-      }
     }
     return videoTech;
   }
@@ -1505,10 +1459,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
     }
 
     update();
-
-    Logger.get(context)
-        .logCallImpression(
-            DialerImpression.Type.VIDEO_CALL_REQUEST_RECEIVED, getUniqueCallId(), getTimeAddedMs());
   }
 
   @Override
@@ -1551,20 +1501,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
   @Override
   public void onEnrichedCallStateChanged() {
     updateEnrichedCallSession();
-  }
-
-  @Override
-  public void onImpressionLoggingNeeded(DialerImpression.Type impressionType) {
-    Logger.get(context).logCallImpression(impressionType, getUniqueCallId(), getTimeAddedMs());
-    if (impressionType == DialerImpression.Type.LIGHTBRINGER_UPGRADE_REQUESTED) {
-      if (getLogState().contactLookupResult == Type.NOT_FOUND) {
-        Logger.get(context)
-            .logCallImpression(
-                DialerImpression.Type.LIGHTBRINGER_NON_CONTACT_UPGRADE_REQUESTED,
-                getUniqueCallId(),
-                getTimeAddedMs());
-      }
-    }
   }
 
   private void updateEnrichedCallSession() {
@@ -1620,10 +1556,6 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
       saveRttTranscript();
     }
     isCallRemoved = true;
-  }
-
-  public com.android.dialer.logging.VideoTech.Type getSelectedAvailableVideoTechType() {
-    return selectedAvailableVideoTechType;
   }
 
   public void markFeedbackRequested() {
@@ -1789,7 +1721,7 @@ public class DialerCall implements VideoTechListener, StateChangedListener, Capa
       // Insert order here determines the priority of that video tech option
       videoTechs = new ArrayList<>();
 
-      videoTechs.add(new ImsVideoTech(Logger.get(call.context), call, call.telecomCall));
+      videoTechs.add(new ImsVideoTech(call, call.telecomCall));
 
       rcsVideoShare =
           EnrichedCallComponent.get(call.context)
