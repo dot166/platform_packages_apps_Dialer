@@ -16,7 +16,8 @@
 
 package com.android.dialer.binary.aosp;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
 import com.android.dialer.binary.common.DialerApplication;
 import com.android.dialer.inject.ContextModule;
 
