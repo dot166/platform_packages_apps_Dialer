@@ -35,7 +35,6 @@ EXTRA_PACKAGE_FLAGS = [
     "--auto-add-overlay",
     "--extra-packages com.android.assets.product",
     "--extra-packages com.android.assets.quantum",
-    "--extra-packages com.android.bubble",
     "--extra-packages com.android.contacts.common",
     "--extra-packages com.android.dialer.about",
     "--extra-packages com.android.dialer.app",
