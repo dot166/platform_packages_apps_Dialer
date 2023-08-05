@@ -123,8 +123,7 @@ abstract class CallDetailsAdapterCommon extends RecyclerView.Adapter<RecyclerVie
           getPrimaryText(),
           getPhotoInfo(),
           entry,
-          callTypeHelper,
-          !entry.getHistoryResultsList().isEmpty() && position != getItemCount() - 2);
+          callTypeHelper);
     }
   }
 
