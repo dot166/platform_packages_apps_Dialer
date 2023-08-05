@@ -36,7 +36,6 @@ import com.android.dialer.calllogutils.CallTypeHelper;
 import com.android.dialer.calllogutils.CallbackActionHelper;
 import com.android.dialer.calllogutils.CallbackActionHelper.CallbackAction;
 import com.android.dialer.common.Assert;
-import com.android.dialer.duo.DuoComponent;
 import com.android.dialer.glidephotomanager.PhotoInfo;
 
 /**
@@ -84,8 +83,7 @@ abstract class CallDetailsAdapterCommon extends RecyclerView.Adapter<RecyclerVie
     this.callDetailsHeaderListener = callDetailsHeaderListener;
     this.reportCallIdListener = reportCallIdListener;
     this.deleteCallDetailsListener = deleteCallDetailsListener;
-    this.callTypeHelper =
-        new CallTypeHelper(context.getResources(), DuoComponent.get(context).getDuo());
+    this.callTypeHelper = new CallTypeHelper(context.getResources());
   }
 
   @Override
@@ -165,7 +163,6 @@ abstract class CallDetailsAdapterCommon extends RecyclerView.Adapter<RecyclerVie
     Assert.checkState(!callDetailsEntries.getEntriesList().isEmpty());
 
     CallDetailsEntry entry = callDetailsEntries.getEntries(0);
-    return CallbackActionHelper.getCallbackAction(
-        getNumber(), entry.getFeatures(), entry.getIsDuoCall());
+    return CallbackActionHelper.getCallbackAction(getNumber(), entry.getFeatures());
   }
 }
