@@ -620,9 +620,6 @@ public class CallButtonPresenter
   public void onInternationalCallOnWifi() {}
 
   @Override
-  public void onEnrichedCallSessionUpdate() {}
-
-  @Override
   public Context getContext() {
     return context;
   }
