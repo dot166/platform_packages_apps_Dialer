@@ -33,7 +33,6 @@ package {
 // Extracted from previous packages.mk and subtracted EXCLUDE_EXTRA_PACKAGES.
 EXTRA_PACKAGE_FLAGS = [
     "--auto-add-overlay",
-    "--extra-packages com.android.assets.product",
     "--extra-packages com.android.assets.quantum",
     "--extra-packages com.android.contacts.common",
     "--extra-packages com.android.dialer.about",
@@ -135,7 +134,6 @@ filegroup {
 
 // Subtraction(RES_DIRS - EXCLUDE_RESOURCE_DIRECTORIES).
 RES_DIRS = [
-    "assets/product/res",
     "assets/quantum/res",
     "java/com/android/contacts/common/res",
     "java/com/android/dialer/about/res",
