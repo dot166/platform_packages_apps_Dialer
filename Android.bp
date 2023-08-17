@@ -51,7 +51,6 @@ EXTRA_PACKAGE_FLAGS = [
     "--extra-packages com.android.dialer.calllog.ui.menu",
     "--extra-packages com.android.dialer.calllogutils",
     "--extra-packages com.android.dialer.clipboard",
-    "--extra-packages com.android.dialer.commandline",
     "--extra-packages com.android.dialer.common",
     "--extra-packages com.android.dialer.common.concurrent.testing",
     "--extra-packages com.android.dialer.common.preference",
