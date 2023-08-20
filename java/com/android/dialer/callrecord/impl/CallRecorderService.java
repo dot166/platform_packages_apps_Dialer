@@ -92,7 +92,7 @@ public class CallRecorderService extends Service {
     // that we need multi process preferences, as the pref is written in a separate
     // process (com.android.dialer vs. com.android.incallui)
     final String prefName = getPackageName() + "_preferences";
-    return getSharedPreferences(prefName, MODE_MULTI_PROCESS);
+    return createDeviceProtectedStorageContext().getSharedPreferences(prefName, MODE_MULTI_PROCESS);
   }
 
   private int getAudioSource() {
