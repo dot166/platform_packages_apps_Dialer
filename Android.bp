@@ -127,7 +127,6 @@ EXTRA_PACKAGE_FLAGS = [
     "--extra-packages com.android.voicemail",
     "--extra-packages com.android.voicemail.impl",
     "--extra-packages com.android.voicemail.impl.configui",
-    "--extra-packages me.leolin.shortcutbadger",
 ]
 
 filegroup {
