@@ -302,8 +302,6 @@ java_library_host {
     name: "dialer-rootcomponentprocessor",
     srcs: [
         "java/com/android/dialer/rootcomponentgenerator/**/*.java",
-        "java/com/android/dialer/inject/DialerRootComponent.java",
-        "java/com/android/dialer/inject/DialerVariant.java",
         "java/com/android/dialer/inject/HasRootComponent.java",
         "java/com/android/dialer/inject/IncludeInDialerRoot.java",
         "java/com/android/dialer/inject/RootComponentGeneratorMetadata.java",
