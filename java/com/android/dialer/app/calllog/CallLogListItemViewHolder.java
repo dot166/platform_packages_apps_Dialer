@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.BlockedNumberContract;
 import android.provider.CallLog;
 import android.provider.CallLog.Calls;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -55,7 +56,6 @@ import com.android.dialer.app.calllog.CallLogAdapter.OnActionModeStateChangedLis
 import com.android.dialer.app.calllog.calllogcache.CallLogCache;
 import com.android.dialer.app.voicemail.VoicemailPlaybackLayout;
 import com.android.dialer.app.voicemail.VoicemailPlaybackPresenter;
-import com.android.dialer.blocking.FilteredNumbersUtil;
 import com.android.dialer.calldetails.CallDetailsEntries;
 import com.android.dialer.calldetails.OldCallDetailsActivity;
 import com.android.dialer.calllogutils.CallbackActionHelper.CallbackAction;
@@ -179,9 +179,9 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
    */
   public int callType;
   /**
-   * ID for blocked numbers database. Set when context menu is created, if the number is blocked.
+   * Set when context menu is created, if the number is blocked.
    */
-  public Integer blockId;
+  public boolean isBlocked;
   /**
    * The account for the current call log entry. Cached here as the call back intent is set only
    * when the actions ViewStub is inflated.
@@ -336,7 +336,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
               displayNumber, number, countryIso, callType, info.sourceType);
     } else if (resId == R.id.context_menu_unblock) {
       blockReportListener.onUnblock(
-          displayNumber, number, countryIso, callType, info.sourceType, isSpam, blockId);
+          displayNumber, number, countryIso, callType, info.sourceType, isSpam);
     } else if (resId == R.id.context_menu_report_not_spam) {
       blockReportListener.onReportNotSpam(
           displayNumber, number, countryIso, callType, info.sourceType);
@@ -617,7 +617,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
               callDetailsEntries, buildContact(), canReportCallerId, canSupportAssistedDialing()));
     }
 
-    boolean isBlockedOrSpam = blockId != null;
+    boolean isBlockedOrSpam = isBlocked || isSpam;
 
     if (!isBlockedOrSpam && info != null && UriUtils.isEncodedContactUri(info.lookupUri)) {
       createNewContactButtonView.setTag(
@@ -793,7 +793,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
 
     if (view.getId() == R.id.unblock_action) {
       blockReportListener.onUnblock(
-          displayNumber, number, countryIso, callType, info.sourceType, isSpam, blockId);
+          displayNumber, number, countryIso, callType, info.sourceType, isSpam);
       return;
     }
 
@@ -897,10 +897,11 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     String e164Number = PhoneNumberUtils.formatNumberToE164(number, countryIso);
     if (!canPlaceCallToNumber
         || isVoicemailNumber
-        || !FilteredNumbersUtil.canBlockNumber(context, e164Number, number)) {
+        || !BlockedNumberContract.canCurrentUserBlockNumbers(context)
+        || PhoneNumberUtils.isEmergencyNumber(e164Number)) {
       return;
     }
-    boolean isBlocked = blockId != null;
+
     if (isBlocked) {
       unblockView.setVisibility(View.VISIBLE);
     } else {
@@ -955,8 +956,8 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     boolean canPlaceCallToNumber = PhoneNumberHelper.canPlaceCallsTo(number, numberPresentation);
     if (canPlaceCallToNumber
         && !isVoicemailNumber
-        && FilteredNumbersUtil.canBlockNumber(context, e164Number, number)) {
-      boolean isBlocked = blockId != null;
+        && BlockedNumberContract.canCurrentUserBlockNumbers(context)
+            && !PhoneNumberUtils.isEmergencyNumber(e164Number)) {
       if (isBlocked) {
         menu.add(
                 ContextMenu.NONE,
@@ -1011,8 +1012,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
         String countryIso,
         int callType,
         ContactSource.Type contactSourceType,
-        boolean isSpam,
-        Integer blockId);
+        boolean isSpam);
 
     void onReportNotSpam(
         String displayNumber,
