@@ -1,26 +1,27 @@
-/*
+/**
  * Copyright (C) 2017 The Android Open Source Project
- * Copyright (C) 2023 The LineageOS Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * <p>Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
  * limitations under the License
  */
-
 package com.android.dialer.voicemail.settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.telecom.PhoneAccount;
 import android.telecom.PhoneAccountHandle;
@@ -30,11 +31,6 @@ import android.telephony.TelephonyManager;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
-import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceClickListener;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceScreen;
-import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.dialer.R;
 import com.android.dialer.common.Assert;
@@ -45,7 +41,6 @@ import com.android.voicemail.VoicemailClient;
 import com.android.voicemail.VoicemailClient.ActivationStateListener;
 import com.android.voicemail.VoicemailComponent;
 import com.google.common.base.Optional;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -72,8 +67,8 @@ public class VoicemailSettingsFragment extends PreferenceFragment
   private Preference voicemailNotificationPreference;
   private PreferenceScreen advancedSettingsPreference;
   // Settings that are supported by dialer only if the carrier configurations are valid.
-  private SwitchPreferenceCompat visualVoicemailPreference;
-  private SwitchPreferenceCompat voicemailAutoArchivePreference;
+  private SwitchPreference visualVoicemailPreference;
+  private SwitchPreference voicemailAutoArchivePreference;
   private Preference voicemailChangePinPreference;
 
   @Override
@@ -155,11 +150,11 @@ public class VoicemailSettingsFragment extends PreferenceFragment
     advancedSettingsPreference.setOrder(VMSettingOrdering.ADVANCED_SETTING);
 
     visualVoicemailPreference =
-        (SwitchPreferenceCompat) findPreference(getString(R.string.voicemail_visual_voicemail_key));
+        (SwitchPreference) findPreference(getString(R.string.voicemail_visual_voicemail_key));
     visualVoicemailPreference.setOrder(VMSettingOrdering.VISUAL_VOICEMAIL);
 
     voicemailAutoArchivePreference =
-        (SwitchPreferenceCompat)
+        (SwitchPreference)
             findPreference(getString(R.string.voicemail_visual_voicemail_archive_key));
     voicemailAutoArchivePreference.setOrder(VMSettingOrdering.VOICEMAIL_AUTO_ARCHIVE);
 
