@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2023 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +17,14 @@
 package com.android.dialer.app.settings;
 
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import com.android.dialer.app.R;
 
-import androidx.annotation.Nullable;
-import androidx.preference.PreferenceFragmentCompat;
-
-import com.android.dialer.R;
-
-public class DisplayOptionsSettingsFragment extends PreferenceFragmentCompat {
+public class DisplayOptionsSettingsFragment extends PreferenceFragment {
 
   @Override
-  public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     addPreferencesFromResource(R.xml.display_options_settings);
   }
 }
