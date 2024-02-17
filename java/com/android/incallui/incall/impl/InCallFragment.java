@@ -100,8 +100,10 @@ public class InCallFragment extends Fragment
   private boolean stateRestored;
   private AlertDialog callRecordingPermissionDialog;
   @StringRes private int pendingCallRecordingMessageResId;
+  private boolean userDeniedBluetooth;
 
-  static final int REQUEST_CODE_CALL_RECORD_PERMISSION = 1000;
+  private static final int REQUEST_CODE_CALL_RECORD_PERMISSION = 1000;
+  private static final int REQUEST_CODE_BLUETOOTH_PERMISSION = 3939; // miku miku
 
   // Add animation to educate users. If a call has enriched calling attachments then we'll
   // initially show the attachment page. After a delay seconds we'll animate to the button grid.
@@ -538,6 +540,15 @@ public class InCallFragment extends Fragment
         // requestPermissions() can return a denied result without showing UI for fixed permissions.
         showCallRecordingPermissionDialog();
       }
+    } else if (requestCode == REQUEST_CODE_BLUETOOTH_PERMISSION) {
+      boolean allGranted = grantResults.length > 0;
+      for (int i = 0; i < grantResults.length; i++) {
+        allGranted &= grantResults[i] == PackageManager.PERMISSION_GRANTED;
+      }
+      inCallButtonUiDelegate.showAudioRouteSelector();
+      if (!allGranted) {
+        userDeniedBluetooth = true;
+      }
     } else {
       super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -611,8 +622,22 @@ public class InCallFragment extends Fragment
 
   @Override
   public void showAudioRouteSelector() {
-    AudioRouteSelectorDialogFragment.newInstance(inCallButtonUiDelegate.getCurrentAudioState())
-        .show(getChildFragmentManager(), null);
+    String[] permissions = new String[]{permission.BLUETOOTH_CONNECT};
+    if (hasAllPermissions(permissions) || userDeniedBluetooth) {
+      AudioRouteSelectorDialogFragment.newInstance(inCallButtonUiDelegate.getCurrentAudioState())
+              .show(getChildFragmentManager(), null);
+    } else {
+      requestPermissions(permissions, REQUEST_CODE_BLUETOOTH_PERMISSION);
+    }
+  }
+
+  private boolean hasAllPermissions(String[] permissions) {
+    for (String p : permissions) {
+      if (requireContext().checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
