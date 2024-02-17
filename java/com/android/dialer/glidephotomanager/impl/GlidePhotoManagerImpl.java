@@ -92,7 +92,7 @@ public class GlidePhotoManagerImpl implements GlidePhotoManager {
 
     if (photoInfo.getIsBlocked()) {
       // Whether the number is blocked takes precedence over the spam status.
-      request = requestManager.load(R.drawable.ic_block_grey_48dp);
+      request = requestManager.load(R.drawable.quantum_ic_block_vd_theme_24);
 
     } else if (photoInfo.getIsSpam()) {
       request = requestManager.load(R.drawable.quantum_ic_report_vd_red_24);
