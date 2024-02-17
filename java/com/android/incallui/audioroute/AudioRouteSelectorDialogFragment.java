@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.telecom.CallAudioState;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,7 +156,11 @@ public class AudioRouteSelectorDialogFragment extends BottomSheetDialogFragment 
     int selectedColor = ThemeComponent.get(getContext()).theme().getColorPrimary();
     TextView textView =
         (TextView) getLayoutInflater().inflate(R.layout.audioroute_item, null, false);
-    textView.setText(BluetoothUtil.getAliasName(bluetoothDevice));
+    String alias = BluetoothUtil.getAliasName(bluetoothDevice);
+    if (TextUtils.isEmpty(alias)) {
+      alias = getString(R.string.audioroute_bluetooth);
+    }
+    textView.setText(alias);
     if (selected) {
       textView.setSelected(true);
       textView.setTextColor(selectedColor);
