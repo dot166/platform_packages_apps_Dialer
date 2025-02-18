@@ -46,4 +46,7 @@
 
     <string name="call_recording_audio_source_default">"4"</string>
 
+    <string name="call_recording_autostart_key" translatable="false">call_recording_autostart</string>
+    <string name="call_recording_autostart_title">Autostart call recording</string>
+
 </resources>

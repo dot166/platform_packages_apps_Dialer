@@ -9,6 +9,11 @@
     android:entries="@array/call_recording_output_format_entries"
     android:entryValues="@array/call_recording_output_format_values"
     android:defaultValue="@string/call_recording_output_format_default" />
+    
+  <SwitchPreference
+    android:defaultValue="false"
+    android:key="@string/call_recording_autostart_key"
+    android:title="@string/call_recording_autostart_title"/>
 
   <ListPreference
     android:key="call_recording_audio_source"
