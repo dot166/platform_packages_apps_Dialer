@@ -46,4 +46,6 @@
 
     <string name="call_recording_audio_source_default">"4"</string>
 
+    <string name="action_menu_helplines">Helplines</string>
+
 </resources>
