@@ -181,7 +181,7 @@ public class HelplineActivity extends Activity {
         @Override
         public void initiateCall(@NonNull String number) {
             IntentProvider provider = IntentProvider.getReturnCallIntentProvider(number);
-            Intent intent = provider.getClickIntent(HelplineActivity.this);
+            Intent intent = provider.getIntent(HelplineActivity.this);
             // Start the call and finish this activity - we don't want to leave traces of the call
             startActivity(intent);
             finish();
