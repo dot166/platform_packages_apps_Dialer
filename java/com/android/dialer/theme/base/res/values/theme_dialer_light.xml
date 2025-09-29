@@ -45,28 +45,6 @@
   <!-- Activities and Applications should inherit from one of the themes above. -->
   <style name="Dialer.ThemeBase">
     <item name="android:forceDarkAllowed">true</item>
-    <!-- These values should be used to color all backgrounds. -->
-    <item name="android:colorBackground">@color/dialer_background_color</item>
-    <item name="android:colorBackgroundFloating">@android:color/white</item>
-    <item name="colorBackgroundSearchBar">@color/dialer_search_bar_color</item>
-
-    <!-- These values should be used to set text color. -->
-    <item name="android:textColorPrimary">@color/dialer_primary_text_color</item>
-    <item name="android:textColorSecondary">@color/dialer_secondary_text_color</item>
-    <item name="android:textColorPrimaryInverse">@color/google_grey_300</item>
-    <item name="android:textColorSecondaryInverse">@color/google_grey_400</item>
-    <item name="android:textColorHint">@color/google_grey_600</item>
-
-    <!-- These will be automatically used to color most Appcompat/Material widgets. -->
-    <item name="android:colorPrimary">@color/dialer_theme_color</item>
-    <item name="colorPrimary">@color/dialer_theme_color</item>
-    <item name="android:colorPrimaryDark">@color/dialer_theme_color_dark</item>
-    <item name="colorPrimaryDark">@color/dialer_theme_color_dark</item>
-    <item name="android:colorAccent">@color/dialer_secondary_color</item>
-    <item name="colorAccent">@color/dialer_secondary_color</item>
-
-    <!-- Used to automatically style check/selected checkbox, switches and radio buttons -->
-    <item name="colorControlActivated">?android:attr/colorPrimary</item>
 
     <!-- Dialer specific attributes. -->
     <item name="colorIcon">@color/google_grey_700</item>
@@ -81,7 +59,7 @@
   </style>
 
   <!-- TODO(a bug): investigate making this style's parent Dialer.ThemeBase.NoActionBar -->
-  <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.NoActionBar">
+  <style name="Theme.AppCompat.Translucent" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowBackground">@android:color/transparent</item>
     <item name="android:colorBackgroundCacheHint">@null</item>
