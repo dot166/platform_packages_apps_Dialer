@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2023 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +20,13 @@ package com.android.dialer.calldetails;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.CallLog.Calls;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.dialer.R;
 import com.android.dialer.calldetails.CallDetailsEntries.CallDetailsEntry;
@@ -37,7 +38,7 @@ import com.android.dialer.glidephotomanager.PhotoInfo;
 import com.android.dialer.oem.MotorolaUtils;
 
 /** ViewHolder for call entries in {@link OldCallDetailsActivity} or {@link CallDetailsActivity}. */
-public class CallDetailsEntryViewHolder extends ViewHolder {
+public class CallDetailsEntryViewHolder extends RecyclerView.ViewHolder {
 
   /** Listener for the call details header */
   interface CallDetailsEntryListener {
