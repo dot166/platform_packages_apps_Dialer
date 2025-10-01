@@ -1,0 +1,134 @@
+# androidx_material_mapping_dialer.csv
+# Format: old_package.ClassName,new_package.ClassName
+
+# Fragments & loaders
+android.support.v4.app.Fragment,androidx.fragment.app.Fragment
+android.support.v4.app.DialogFragment,androidx.fragment.app.DialogFragment
+android.support.v4.app.FragmentManager,androidx.fragment.app.FragmentManager
+android.support.v4.app.LoaderManager,androidx.loader.app.LoaderManager
+android.support.v4.content.Loader,androidx.loader.content.Loader
+
+# Context / Compat / Core
+android.support.v4.content.ContextCompat,androidx.core.content.ContextCompat
+android.support.v4.content.res.ResourcesCompat,androidx.core.content.res.ResourcesCompat
+android.support.v4.content.FileProvider,androidx.core.content.FileProvider
+
+# Views & layouts
+android.support.v4.view.ViewPager,androidx.viewpager.widget.ViewPager
+android.support.v4.widget.DrawerLayout,androidx.drawerlayout.widget.DrawerLayout
+
+# AppCompat / UI
+android.support.v7.app.AppCompatActivity,androidx.appcompat.app.AppCompatActivity
+android.support.v7.app.AlertDialog,androidx.appcompat.app.AlertDialog
+android.support.v7.app.ActionBar,androidx.appcompat.app.ActionBar
+android.support.v7.view.menu.MenuBuilder,androidx.appcompat.view.menu.MenuBuilder
+android.support.v7.widget.Toolbar,androidx.appcompat.widget.Toolbar
+android.support.v7.widget.RecyclerView,androidx.recyclerview.widget.RecyclerView
+android.support.v7.widget.CardView,androidx.cardview.widget.CardView
+
+# Preferences
+android.support.v7.preference.PreferenceFragmentCompat,androidx.preference.PreferenceFragmentCompat
+android.support.v7.preference.PreferenceManager,androidx.preference.PreferenceManager
+android.support.v7.preference.Preference,androidx.preference.Preference
+android.support.v7.preference.PreferenceCategory,androidx.preference.PreferenceCategory
+
+# Design / Material components
+android.support.design.widget.FloatingActionButton,com.google.android.material.floatingactionbutton.FloatingActionButton
+android.support.design.widget.TabLayout,com.google.android.material.tabs.TabLayout
+android.support.design.widget.AppBarLayout,com.google.android.material.appbar.AppBarLayout
+android.support.design.widget.CollapsingToolbarLayout,com.google.android.material.appbar.CollapsingToolbarLayout
+android.support.design.widget.CoordinatorLayout,androidx.coordinatorlayout.widget.CoordinatorLayout
+android.support.design.widget.Snackbar,com.google.android.material.snackbar.Snackbar
+android.support.design.widget.TextInputLayout,com.google.android.material.textfield.TextInputLayout
+android.support.design.widget.TextInputEditText,com.google.android.material.textfield.TextInputEditText
+android.support.design.widget.NavigationView,com.google.android.material.navigation.NavigationView
+android.support.design.widget.BottomNavigationView,com.google.android.material.bottomnavigation.BottomNavigationView
+
+# Annotations & support tools
+android.support.annotation.Nullable,androidx.annotation.Nullable
+android.support.annotation.NonNull,androidx.annotation.NonNull
+android.support.annotation.VisibleForTesting,androidx.annotation.VisibleForTesting
+android.support.annotation.IntDef,androidx.annotation.IntDef
+android.support.annotation.WorkerThread,androidx.annotation.WorkerThread
+android.support.annotation.MainThread,androidx.annotation.MainThread
+
+# Collections & utils
+android.support.v4.util.ArrayMap,androidx.collection.ArrayMap
+android.support.v4.util.SparseArrayCompat,androidx.collection.SparseArrayCompat
+android.support.v4.util.Pair,androidx.core.util.Pair
+
+# Fixes for previously broken mappings
+android.support.v4.os.BuildCompat,androidx.core.os.BuildCompat
+android.support.v4.content.LocalBroadcastManager,androidx.localbroadcastmanager.content.LocalBroadcastManager
+android.support.v7.widget.LinearLayoutManager,androidx.recyclerview.widget.LinearLayoutManager
+android.support.v13.app.FragmentPagerAdapter,androidx.fragment.app.FragmentPagerAdapter
+
+# Other support classes
+android.support.v4.view.PagerAdapter,androidx.viewpager.widget.PagerAdapter
+android.support.v4.content.AsyncTaskLoader,androidx.loader.content.AsyncTaskLoader
+android.support.v4.os.UserManagerCompat,androidx.core.os.UserManagerCompat
+android.support.v4.app.ActivityCompat,androidx.core.app.ActivityCompat
+android.support.v4.util.LongSparseArray,androidx.collection.LongSparseArray
+android.support.v4.util.SimpleArrayMap,androidx.collection.SimpleArrayMap
+android.support.v4.util.ArraySet,androidx.collection.ArraySet
+android.support.v4.app.NotificationCompat,androidx.core.app.NotificationCompat
+android.support.v4.graphics.drawable.RoundedBitmapDrawable,androidx.core.graphics.drawable.RoundedBitmapDrawable
+android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory,androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+android.support.v4.graphics.ColorUtils,androidx.core.graphics.ColorUtils
+android.support.v4.view.ViewCompat,androidx.core.view.ViewCompat
+android.support.v4.view.animation.FastOutLinearInInterpolator,androidx.interpolator.view.animation.FastOutLinearInInterpolator
+android.support.v4.view.animation.FastOutSlowInInterpolator,androidx.interpolator.view.animation.FastOutSlowInInterpolator
+android.support.v4.view.animation.LinearOutSlowInInterpolator,androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+android.support.v4.view.animation.PathInterpolatorCompat,androidx.core.view.animation.PathInterpolatorCompat
+android.support.v7.app.AppCompatDelegate,androidx.appcompat.app.AppCompatDelegate
+android.support.v7.app.AppCompatDialogFragment,androidx.appcompat.app.AppCompatDialogFragment
+android.support.v7.util.DiffUtil,androidx.recyclerview.widget.DiffUtil
+android.support.v7.widget.PopupMenu,androidx.appcompat.widget.PopupMenu
+android.support.v7.widget.GridLayoutManager,androidx.recyclerview.widget.GridLayoutManager
+android.support.v7.widget.helper.ItemTouchHelper,androidx.recyclerview.widget.ItemTouchHelper
+android.support.design.widget.BottomSheetBehavior,com.google.android.material.bottomsheet.BottomSheetBehavior
+android.support.design.widget.BottomSheetDialog,com.google.android.material.bottomsheet.BottomSheetDialog
+android.support.design.widget.BottomSheetDialogFragment,com.google.android.material.bottomsheet.BottomSheetDialogFragment
+android.support.design.widget.BaseTransientBottomBar,com.google.android.material.snackbar.BaseTransientBottomBar
+android.support.v4.app.JobIntentService,androidx.core.app.JobIntentService
+android.support.v4.content.CursorLoader,androidx.loader.content.CursorLoader
+android.support.v4.widget.Space,androidx.legacy.widget.Space
+android.support.v4.widget.NestedScrollView,androidx.core.widget.NestedScrollView
+android.support.v7.widget.AppCompatTextView,androidx.appcompat.widget.AppCompatTextView
+
+# Annotations
+android.support.annotation.CallSuper,androidx.annotation.CallSuper
+android.support.annotation.CheckResult,androidx.annotation.CheckResult
+android.support.annotation.ColorInt,androidx.annotation.ColorInt
+android.support.annotation.ColorRes,androidx.annotation.ColorRes
+android.support.annotation.DimenRes,androidx.annotation.DimenRes
+android.support.annotation.DrawableRes,androidx.annotation.DrawableRes
+android.support.annotation.IntDef,androidx.annotation.IntDef
+android.support.annotation.IntegerRes,androidx.annotation.IntegerRes
+android.support.annotation.MainThread,androidx.annotation.MainThread
+android.support.annotation.NonNull,androidx.annotation.NonNull
+android.support.annotation.Nullable,androidx.annotation.Nullable
+android.support.annotation.StringRes,androidx.annotation.StringRes
+android.support.annotation.VisibleForTesting,androidx.annotation.VisibleForTesting
+android.support.annotation.WorkerThread,androidx.annotation.WorkerThread
+android.support.annotation.AnyThread,androidx.annotation.AnyThread
+android.support.annotation.RequiresPermission,androidx.annotation.RequiresPermission
+android.support.annotation.StringDef,androidx.annotation.StringDef
+android.support.annotation.RequiresApi,androidx.annotation.RequiresApi
+android.support.annotation.PluralsRes,androidx.annotation.PluralsRes
+android.support.annotation.Px,androidx.annotation.Px
+android.support.annotation.UiThread,androidx.annotation.UiThread
+android.support.annotation.StyleRes,androidx.annotation.StyleRes
+android.support.annotation.FloatRange,androidx.annotation.FloatRange
+
+# FileProvider XML metadata
+android.support.FILE_PROVIDER_PATHS,androidx.core.content.FileProvider
+
+# General fallback rule (disabled to prevent broken mappings)
+# android.support.,androidx.
+
+#experimental resource fix (not recommended)
+android.support.design.R.id.design_bottom_sheet,com.google.android.material.R.id.design_bottom_sheet
+android.support.design.R.id.touch_outside,com.google.android.material.R.id.touch_outside
+
+androidx.legacy.widget.Space,android.widget.Space
