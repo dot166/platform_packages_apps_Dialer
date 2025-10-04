@@ -113,12 +113,6 @@ public class MainActivity extends TransactionSafeActivity
   }
 
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    activePeer.onActivityResult(requestCode, resultCode, data);
-  }
-
-  @Override
   public void onBackPressed() {
     if (activePeer.onBackPressed()) {
       return;
