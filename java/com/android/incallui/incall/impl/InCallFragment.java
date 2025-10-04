@@ -41,6 +41,8 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -100,7 +102,14 @@ public class InCallFragment extends Fragment
   private boolean stateRestored;
   private boolean userDeniedBluetooth;
 
-  private static final int REQUEST_CODE_CALL_RECORD_PERMISSION = 1000;
+  private final ActivityResultLauncher<String[]> permissionLauncher = registerForActivityResult(
+          new ActivityResultContracts.RequestMultiplePermissions(),
+          grantResults -> {
+            boolean allGranted = grantResults.values().stream().allMatch(x -> x);
+            if (allGranted) {
+              inCallButtonUiDelegate.callRecordClicked(true);
+            }
+          });
 
   private final ActivityResultLauncher<String[]> bluetoothPermissionLauncher =
           registerForActivityResult(
@@ -479,23 +488,7 @@ public class InCallFragment extends Fragment
 
   @Override
   public void requestCallRecordingPermissions(String[] permissions) {
-    requestPermissions(permissions, REQUEST_CODE_CALL_RECORD_PERMISSION);
-  }
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode,
-      @NonNull String[] permissions, @NonNull int[] grantResults) {
-    if (requestCode == REQUEST_CODE_CALL_RECORD_PERMISSION) {
-      boolean allGranted = grantResults.length > 0;
-      for (int i = 0; i < grantResults.length; i++) {
-        allGranted &= grantResults[i] == PackageManager.PERMISSION_GRANTED;
-      }
-      if (allGranted) {
-        inCallButtonUiDelegate.callRecordClicked(true);
-      }
-    } else {
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+    permissionLauncher.launch(permissions);
   }
 
   @Override
