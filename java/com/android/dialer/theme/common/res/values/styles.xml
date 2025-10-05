@@ -17,13 +17,12 @@
 <resources>
   <!-- TODO(calderwoodra): Delete this once new call log and new voicemail ship. -->
   <!-- Ideally we would make a callLogCardStyle attribute but we don't want to expand dialer/app -->
-  <style name="CallLogCardStyle" parent="CardView">
+  <style name="CallLogCardStyle" parent="Widget.Material3.CardView.Outlined">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_margin">4dp</item>
     <item name="android:baselineAligned">false</item>
     <item name="cardCornerRadius">2dp</item>
-    <item name="cardBackgroundColor">?android:attr/colorBackgroundFloating</item>
   </style>
 
   <!-- This Checkbox style helps align checkboxes with the common list element layout(Image + text) -->
