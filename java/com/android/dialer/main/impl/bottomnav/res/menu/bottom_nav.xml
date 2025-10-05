@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/speed_dial_tab"
+        android:enabled="true"
+        android:icon="@drawable/quantum_ic_star_vd_theme_24"
+        android:title="@string/tab_title_speed_dial"/>
+    <item
+        android:id="@+id/call_log_tab"
+        android:enabled="true"
+        android:icon="@drawable/quantum_ic_access_time_vd_theme_24"
+        android:title="@string/tab_title_call_history"/>
+    <item
+        android:id="@+id/contacts_tab"
+        android:enabled="true"
+        android:icon="@drawable/quantum_ic_people_vd_theme_24"
+        android:title="@string/tab_title_contacts"/>
+    <item
+        android:id="@+id/voicemail_tab"
+        android:enabled="true"
+        android:icon="@drawable/quantum_ic_voicemail_vd_theme_24"
+        android:title="@string/tab_title_voicemail"/>
+</menu>

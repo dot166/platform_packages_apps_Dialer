@@ -35,7 +35,6 @@
 
   <Button
     android:id="@+id/empty_list_view_action"
-    style="@style/DialerPrimaryFlatButtonStyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"

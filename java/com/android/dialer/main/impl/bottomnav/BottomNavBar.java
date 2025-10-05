@@ -19,10 +19,12 @@ package com.android.dialer.main.impl.bottomnav;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.dialer.R;
@@ -30,13 +32,16 @@ import com.android.dialer.common.Assert;
 import com.android.dialer.common.LogUtil;
 import com.android.dialer.main.impl.MainActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Dialer Bottom Nav Bar for {@link MainActivity}. */
-public final class BottomNavBar extends LinearLayout {
+public final class BottomNavBar extends BottomNavigationView {
 
   /** Index for each tab in the bottom nav. */
   @Retention(RetentionPolicy.SOURCE)
@@ -57,14 +62,15 @@ public final class BottomNavBar extends LinearLayout {
 
   private final List<OnBottomNavTabSelectedListener> listeners = new ArrayList<>();
 
-  private BottomNavItem speedDial;
-  private BottomNavItem callLog;
-  private BottomNavItem contacts;
-  private BottomNavItem voicemail;
+  private BottomNavigationItemView speedDial;
+  private BottomNavigationItemView callLog;
+  private BottomNavigationItemView contacts;
+  private BottomNavigationItemView voicemail;
   private @TabIndex int selectedTab;
 
   public BottomNavBar(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
+    inflateMenu(R.menu.bottom_nav);
   }
 
   @Override
@@ -75,22 +81,34 @@ public final class BottomNavBar extends LinearLayout {
     contacts = findViewById(R.id.contacts_tab);
     voicemail = findViewById(R.id.voicemail_tab);
 
-    speedDial.setup(R.string.tab_title_speed_dial, R.drawable.quantum_ic_star_vd_theme_24);
-    callLog.setup(R.string.tab_title_call_history, R.drawable.quantum_ic_access_time_vd_theme_24);
-    contacts.setup(R.string.tab_title_contacts, R.drawable.quantum_ic_people_vd_theme_24);
-    voicemail.setup(R.string.tab_title_voicemail, R.drawable.quantum_ic_voicemail_vd_theme_24);
-
-    speedDial.setOnClickListener(v -> selectTab(TabIndex.SPEED_DIAL));
-    callLog.setOnClickListener(v -> selectTab(TabIndex.CALL_LOG));
-    contacts.setOnClickListener(v -> selectTab(TabIndex.CONTACTS));
-    voicemail.setOnClickListener(v -> selectTab(TabIndex.VOICEMAIL));
+    setOnItemSelectedListener(new OnItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+          case R.id.speed_dial_tab:
+            selectTab(TabIndex.SPEED_DIAL);
+            return true;
+          case R.id.call_log_tab:
+            selectTab(TabIndex.CALL_LOG);
+            return true;
+          case R.id.contacts_tab:
+            selectTab(TabIndex.CONTACTS);
+            return true;
+          case R.id.voicemail_tab:
+            selectTab(TabIndex.VOICEMAIL);
+            return true;
+          default:
+            return false;
+        }
+      }
+    });
   }
 
   private void setSelected(View view) {
-    speedDial.setSelected(view == speedDial);
-    callLog.setSelected(view == callLog);
-    contacts.setSelected(view == contacts);
-    voicemail.setSelected(view == voicemail);
+    speedDial.setChecked(view == speedDial);
+    callLog.setChecked(view == callLog);
+    contacts.setChecked(view == contacts);
+    voicemail.setChecked(view == voicemail);
   }
 
   /**
@@ -142,13 +160,33 @@ public final class BottomNavBar extends LinearLayout {
 
   public void setNotificationCount(@TabIndex int tab, int count) {
     if (tab == TabIndex.SPEED_DIAL) {
-      speedDial.setNotificationCount(count);
+      if (count > 0) {
+        getOrCreateBadge(R.id.speed_dial_tab).setNumber(count);
+      } else {
+        getOrCreateBadge(R.id.speed_dial_tab).clearNumber();
+        removeBadge(R.id.speed_dial_tab);
+      }
     } else if (tab == TabIndex.CALL_LOG) {
-      callLog.setNotificationCount(count);
+      if (count > 0) {
+        getOrCreateBadge(R.id.call_log_tab).setNumber(count);
+      } else {
+        getOrCreateBadge(R.id.call_log_tab).clearNumber();
+        removeBadge(R.id.call_log_tab);
+      }
     } else if (tab == TabIndex.CONTACTS) {
-      contacts.setNotificationCount(count);
+      if (count > 0) {
+        getOrCreateBadge(R.id.contacts_tab).setNumber(count);
+      } else {
+        getOrCreateBadge(R.id.contacts_tab).clearNumber();
+        removeBadge(R.id.contacts_tab);
+      }
     } else if (tab == TabIndex.VOICEMAIL) {
-      voicemail.setNotificationCount(count);
+      if (count > 0) {
+        getOrCreateBadge(R.id.voicemail_tab).setNumber(count);
+      } else {
+        getOrCreateBadge(R.id.voicemail_tab).clearNumber();
+        removeBadge(R.id.voicemail_tab);
+      }
     } else {
       throw new IllegalStateException("Invalid tab: " + tab);
     }
