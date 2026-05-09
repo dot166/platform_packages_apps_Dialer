@@ -313,7 +313,7 @@ android_app {
         "libphonenumber",
         "volley",
         "zxing-core-1.7",
-        "org.lineageos.lib.phone",
+        "libPhone2",
     ],
     libs: [
         "auto_value_annotations",

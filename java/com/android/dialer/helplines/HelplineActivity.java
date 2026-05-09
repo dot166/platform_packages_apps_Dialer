@@ -46,7 +46,7 @@ import com.android.dialer.R;
 import com.android.dialer.app.calllog.IntentProvider;
 import com.android.dialer.helplines.utils.HelplineUtils;
 
-import org.lineageos.lib.phone.spn.Item;
+import io.github.dot166.libphone2.spn.Item;
 
 import java.util.HashMap;
 import java.util.List;

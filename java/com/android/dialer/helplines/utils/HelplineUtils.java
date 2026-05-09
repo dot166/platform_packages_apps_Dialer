@@ -20,7 +20,7 @@ import android.text.TextUtils;
 
 import com.android.dialer.R;
 import com.android.dialer.helplines.HelplineItem;
-import org.lineageos.lib.phone.spn.Item;
+import io.github.dot166.libphone2.spn.Item;
 
 import java.util.ArrayList;
 

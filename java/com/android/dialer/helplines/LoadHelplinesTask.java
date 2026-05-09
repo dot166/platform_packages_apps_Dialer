@@ -23,8 +23,8 @@ import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.util.Log;
 
-import org.lineageos.lib.phone.SensitivePhoneNumbers;
-import org.lineageos.lib.phone.spn.Item;
+import io.github.dot166.libphone2.SensitivePhoneNumbers;
+import io.github.dot166.libphone2.spn.Item;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +71,7 @@ public class LoadHelplinesTask extends AsyncTask<Void, Integer, List<HelplineIte
                 }
                 alreadyProcessedMccs.add(mcc);
 
-                SensitivePhoneNumbers spn = SensitivePhoneNumbers.getInstance();
+                SensitivePhoneNumbers spn = SensitivePhoneNumbers.Companion.getInstance();
                 ArrayList<Item> pns = spn.getSensitivePnInfosForMcc(mcc);
                 int numPns = pns.size();
                 for (int i = 0; i < numPns; i++) {

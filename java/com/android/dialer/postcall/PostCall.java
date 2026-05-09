@@ -43,7 +43,7 @@ import com.android.dialer.storage.StorageComponent;
 import com.android.dialer.util.DialerUtils;
 import com.android.dialer.util.IntentUtil;
 
-import org.lineageos.lib.phone.SensitivePhoneNumbers;
+import io.github.dot166.libphone2.SensitivePhoneNumbers;
 
 /** Helper class to handle all post call actions. */
 public class PostCall {
@@ -224,7 +224,7 @@ public class PostCall {
     boolean callDisconnectedByUser = manager.getBoolean(KEY_POST_CALL_DISCONNECT_PRESSED, false);
     String number = manager.getString(KEY_POST_CALL_CALL_NUMBER, null);
 
-    boolean isSensitiveNumber = SensitivePhoneNumbers.getInstance().isSensitiveNumber(context,
+    boolean isSensitiveNumber = SensitivePhoneNumbers.Companion.getInstance().isSensitiveNumber(context,
             number, INVALID_SUBSCRIPTION_ID);
 
     ConfigProvider binding = ConfigProviderComponent.get(context).getConfigProvider();
